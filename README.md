@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-Esse projeto foi inicial com CRA utilizando template com Typescript.
+Esse projeto foi inicializado com CRA utilizando template com Typescript.
 Cores e layout foram baseadas na famosa empresa Mercado Livre. O proposito da aplicação é simular um fluxo de compra com carrinho.
 Na construção da estrutura do código utilizei Hooks, métodos de array, tipagem entre outros conceitos do JavaScript, Typescript e React.
 Para a criação dos components escolhi utilizar a lib material ui, para facilitar na hora do desenvolvimento do layout ao mesmo tempo praticar algumas manipulações utilizando CSS.
