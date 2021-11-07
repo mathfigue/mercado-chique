@@ -40,7 +40,7 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
       const oldValue = findElem.qtd * Number(item.price)
       dispatch({
         type: 'UPDATE_CART',
-        state: {
+        payload: {
           cart_products: state.cart_products,
           total_value: state.total_value - oldValue + newValue,
           total_products: state.total_products - findElem.qtd + item.stock,
@@ -54,7 +54,7 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
       const oldValue = findElem.qtd * Number(item.price)
       dispatch({
         type: 'UPDATE_CART',
-        state: {
+        payload: {
           cart_products: state.cart_products,
           total_value: state.total_value - oldValue + newValue,
           total_products: state.total_products - findElem.qtd + inputValue,
@@ -67,11 +67,7 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
   return (
     <>
       <List>
-        <Box
-          sx={{
-            display: { sx: 'block', sm: 'flex', md: 'none' },
-          }}
-        >
+        <Box sx={responsiveBox}>
           {!inCart && (
             <CloseIcon
               sx={{ fontSize: '48px' }}
@@ -94,54 +90,44 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
                 </Box>
                 <Box
                   sx={{
-                    display: 'flex',
+                    ...mainContainer,
                     flexWrap: inCart ? 'wrap' : 'nowrap',
-                    justifyContent: 'space-between',
-                    width: '100%',
                   }}
                   component='div'
                 >
-                  <Box>
-                    <Link to={`/product-detail/${item.id}`}>
-                      <Typography
-                        sx={{ maxWidth: '300px', width: '100%' }}
-                        variant='h6'
-                        color='secondary'
-                        component='div'
-                      >
-                        {item.name}
-                      </Typography>
-                      <Typography
-                        variant='h6'
-                        color='#333'
-                        noWrap
-                        component='div'
-                      >
-                        un: {item.qtd} total:
-                        {formatMoney(Number(item.price) * item.qtd)}
-                      </Typography>
-                      <Typography
-                        variant='caption'
-                        color={item.qtd > item.stock ? 'error' : '#333'}
-                        noWrap
-                        component='div'
-                      >
-                        {item.qtd > item.stock
-                          ? `Não há estoque disponível`
-                          : `${item.stock} disponíveis`}
-                      </Typography>
-                    </Link>
-                  </Box>
-                  {inCart && (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '15px',
-                      }}
+                  <Link to={`/product-detail/${item.id}`}>
+                    <Typography
+                      sx={productName}
+                      variant='caption'
+                      color='secondary'
+                      component='div'
                     >
+                      {item.name}
+                    </Typography>
+                    <Typography
+                      variant='caption'
+                      color='#333'
+                      noWrap
+                      component='div'
+                    >
+                      un: {item.qtd} total:
+                      {formatMoney(Number(item.price) * item.qtd)}
+                    </Typography>
+                    <Typography
+                      variant='caption'
+                      color={item.qtd > item.stock ? 'error' : '#333'}
+                      noWrap
+                      component='div'
+                    >
+                      {item.qtd > item.stock
+                        ? `Não há estoque disponível`
+                        : `${item.stock} disponíveis`}
+                    </Typography>
+                  </Link>
+                  {inCart && (
+                    <Box sx={cardActions}>
                       <RemoveCartItem data={item} dialog={setOpenDialog} />
-                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      <Box sx={fieldBox}>
                         <TextField
                           data-cy='input-change-value'
                           sx={{ maxWidth: '100px' }}
@@ -162,14 +148,7 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
                     </Box>
                   )}
                   {!inCart && (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        marginLeft: '20px',
-                      }}
-                    >
+                    <Box sx={actionBox}>
                       <AddCartItem data={item} />
                       <RemoveCartItem data={item} dialog={setOpenDialog} />
                     </Box>
@@ -179,21 +158,13 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
             </Box>
           ))
         ) : (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '300px',
-            }}
-          >
+          <Box sx={emptyBox}>
             <Typography
               variant='h6'
               color='#333'
               noWrap
               component='h6'
-              sx={{ textAlign: 'center' }}
+              align='center'
             >
               Seu carrinho está vazio =(
             </Typography>
@@ -203,9 +174,9 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
                 color='secondary'
                 noWrap
                 component='h5'
+                align='center'
                 sx={{
-                  textAlign: 'center',
-                  marginTop: '20px',
+                  mt: '20px',
                 }}
               >
                 adicione seu primeiro produto
@@ -216,40 +187,27 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
         {state?.cart_products?.length > 0 && (
           <Box
             sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              ...productBox,
+              justifyContent: `${inCart ? 'space-around' : 'flex-end'}`,
             }}
           >
-            <Box
-              sx={{
-                display: 'flex',
-                width: '95%',
-                marginTop: '15px',
-                justifyContent: `${inCart ? 'space-between' : 'flex-end'}`,
-                alignItems: 'center',
-              }}
-            >
-              {inCart && (
-                <>
-                  <Link to='/'>
-                    <Typography
-                      variant='caption'
-                      color='secondary'
-                      noWrap
-                      component='div'
-                      sx={{ textAlign: 'center' }}
-                    >
-                      Continuar comprando
-                    </Typography>
-                  </Link>
-                  <Box sx={{ maxWidth: '280px' }}>
-                    <ResetCart />
-                  </Box>
-                </>
-              )}
-            </Box>
+            {inCart && (
+              <>
+                <Link to='/'>
+                  <Typography
+                    variant='caption'
+                    color='secondary'
+                    align='center'
+                    noWrap
+                  >
+                    Continuar comprando
+                  </Typography>
+                </Link>
+                <Box sx={{ maxWidth: '280px' }}>
+                  <ResetCart />
+                </Box>
+              </>
+            )}
           </Box>
         )}
       </List>
@@ -260,5 +218,48 @@ const CartDetail: FC<Props> = ({ inCart, setOpenCart }) => {
     </>
   )
 }
+
+const productName = { maxWidth: '300px', width: '100%' }
+
+const responsiveBox = {
+  display: { sx: 'block', sm: 'flex', md: 'none' },
+}
+
+const mainContainer = {
+  display: 'flex',
+
+  justifyContent: 'space-between',
+  width: '100%',
+}
+
+const actionBox = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginLeft: '20px',
+  flexDirection: 'column' as 'column',
+}
+
+const emptyBox = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '300px',
+  flexDirection: 'column' as 'column',
+}
+
+const productBox = {
+  display: 'flex',
+  width: '100%',
+  marginTop: '15px',
+  alignItems: 'center',
+}
+
+const cardActions = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px',
+}
+
+const fieldBox = { display: 'flex', flexDirection: 'column' as 'column' }
 
 export default CartDetail

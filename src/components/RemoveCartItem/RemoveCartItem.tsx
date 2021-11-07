@@ -27,7 +27,7 @@ const AddCartItem: FC<Props> = ({ data, dialog }) => {
 
     dispatch({
       type: 'UPDATE_CART',
-      state: {
+      payload: {
         cart_products: state.cart_products,
         total_value: state.total_value - Number(item.price),
         total_products: state.total_products - 1,

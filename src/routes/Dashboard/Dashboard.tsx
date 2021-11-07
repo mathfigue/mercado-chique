@@ -36,108 +36,69 @@ const Dashboard: FC = () => {
   }
 
   return isLoading ? (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '500px',
-      }}
-    >
+    <Box sx={{ ...loaderContainer, ...centerBox }}>
       <CircularProgress color='secondary' />
     </Box>
   ) : (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        marginTop: '50px',
-      }}
-    >
+    <Box sx={{ ...mainContainer, ...centerBox }}>
       <InputSearch search={search} handleSearch={handleSearch} />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          marginTop: '50px',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: '1920px',
-            paddingLeft: '15px',
-          }}
-        >
-          {search?.length > 0 ? (
-            search.map((item) => <CardProduct data={item} />)
-          ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                minHeight: '300px',
-              }}
+      <Box sx={{ ...cardsContainer, ...centerBox }}>
+        {search?.length > 0 ? (
+          search.map((item) => <CardProduct data={item} />)
+        ) : (
+          <Box sx={{ ...emptyContainer, ...centerBox }}>
+            <Typography
+              variant='h6'
+              color='#333'
+              noWrap
+              component='div'
+              align='center'
             >
-              <Typography
-                variant='h6'
-                color='#333'
-                noWrap
-                component='div'
-                sx={{ textAlign: 'center' }}
-              >
-                Carrinho vazio =(
-              </Typography>
-            </Box>
-          )}
-          <Box
-            sx={{
-              margin: '15px',
-              maxWidth: '280px',
-              width: '100%',
-              border: 'none',
-              borderRadius: '10px',
-            }}
-          ></Box>
-          <Box
-            sx={{
-              margin: '15px',
-              maxWidth: '280px',
-              width: '100%',
-            }}
-          ></Box>
-          <Box
-            sx={{
-              margin: '15px',
-              maxWidth: '280px',
-              width: '100%',
-            }}
-          ></Box>
-          <Box
-            sx={{
-              margin: '15px',
-              maxWidth: '280px',
-              width: '100%',
-            }}
-          ></Box>
-          <Box
-            sx={{
-              margin: '15px',
-              maxWidth: '280px',
-              width: '100%',
-            }}
-          ></Box>
-        </Box>
+              Carrinho vazio =(
+            </Typography>
+          </Box>
+        )}
+        <Box sx={hiddenBox}></Box>
+        <Box sx={hiddenBox}></Box>
+        <Box sx={hiddenBox}></Box>
+        <Box sx={hiddenBox}></Box>
       </Box>
     </Box>
   )
 }
+
+const hiddenBox = {
+  margin: '15px',
+  maxWidth: '280px',
+  width: '100%',
+}
+
+const centerBox = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
+const loaderContainer = {
+  height: '500px',
+}
+
+const mainContainer = {
+  marginTop: '50px',
+  flexDirection: 'column' as 'column',
+}
+
+const cardsContainer = {
+  width: '100%',
+  maxWidth: '1920px',
+  paddingLeft: '15px',
+  marginTop: '30px',
+  flexWrap: 'wrap' as 'wrap',
+}
+
+const emptyContainer = {
+  width: '100%',
+  minHeight: '300px',
+}
+
 export default Dashboard

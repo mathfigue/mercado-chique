@@ -26,7 +26,7 @@ const ButtonAddCart: FC<Props> = ({ product }) => {
 
     dispatch({
       type: 'UPDATE_CART',
-      state: {
+      payload: {
         cart_products: state.cart_products,
         total_value: state.total_value + Number(item.price),
         total_products: state.total_products + 1,
@@ -35,13 +35,7 @@ const ButtonAddCart: FC<Props> = ({ product }) => {
     toast.success('Produto adicionado com sucesso!!')
   }
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '25px',
-      }}
-    >
+    <Box sx={buttonStyle}>
       <Button
         data-cy='button-add-product'
         onClick={() => handleAddCart(product)}
@@ -52,6 +46,12 @@ const ButtonAddCart: FC<Props> = ({ product }) => {
       </Button>
     </Box>
   )
+}
+
+const buttonStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '25px',
 }
 
 export default ButtonAddCart
